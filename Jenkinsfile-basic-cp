@@ -1,36 +1,29 @@
-
 pipeline {
-    agent none
-    tools{
-        maven 'Maven'
+    agent any
+    tools {
+        maven 'Maven' // Ensure 'Maven' matches your installed Maven tool name
     }
     stages {
-        stage ("build jar") {
+        stage("build jar") {
             steps {
-                script {
-                    echo "building the application..."
-                    sh 'mvn package'
-                }
-                
+                echo "Building the application..."
+                sh 'mvn package'
             }
         }
-        stage("build image"){
+        stage("build image") {
             steps {
-                script {
-                     echo "builing docker image..."
-                     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh 'docker build -t waseem63/demo-app:jma-2.0 .'
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh 'docker push waseem63/demo-app:jma-2.0 .'
-                     }
+                echo "Building Docker image..."
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh 'docker build -t waseem63/demo-app:jma-2.0 .'
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh 'docker push waseem63/demo-app:jma-2.0'
                 }
             }
         }
-        stage("deploy"){
+        stage("deploy") {
             steps {
-                script {
-                    echo "deploying the application..."
-                }
+                echo "Deploying the application..."
+                // Add deployment steps here
             }
         }
     }
