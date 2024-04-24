@@ -39,7 +39,7 @@ pipeline {
 }
 
 
-
+// This is the jenkins pipeline code. This script is about building the building the jar file and building into docker image using jenkins pipeline.
 /*
 pipeline {
     agent any 
@@ -79,8 +79,12 @@ pipeline {
 }
 */
 
-/*pipeline {
-    agent none
+
+// This is the simple jenkins pipeline script
+
+/*
+pipeline {
+    agent any
     stages {
         stage('build') {
             steps {
@@ -106,5 +110,8 @@ pipeline {
     }
 }
 */
+
+// End jenkins simple pipeline script
+
 
 
