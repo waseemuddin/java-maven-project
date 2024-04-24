@@ -1,75 +1,37 @@
-/*
-pipeline{
+pipeline {
     agent any
-    tools{
-        maven 'maven-3.9'
-    }
-    stages{
-        stage("build jar") {
-            steps {
-                script {
-                    echo "building the application...."
-                    sh 'mvn package'
-                }
-
-            }
-        }
-        stage("build image") {
-            steps {
-                script {
-                    echo "building the docker image..."
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh 'docker build -t waseem63/myrepo:jma-3.0 .'
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh 'docker push waseem63/myrepo:jma-3.0'
-                    }
-                }
-            }
-        }
-        stage("deploy"){
-            steps{
-                script{
-                    echo "deploying the application"
-                }
-            }
-        }
-    }
-
-}
-*/
-def gv
-
-pipeline{
-    agent any
-    tools {
-        maven 'maven-3.9'
-    }
     stages {
-        stage (init) {
+        stage('test') {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    echo "Testing the application..."
+                    echo "Executing the pipeline for branch $BRANCHNAME"
                 }
             }
         }
-        stage ("build jar") {
+        stage('build') {
+            when {
+                expression {
+                    BRANCHNAME == 'master'
+                }
+            }
             steps {
                 script {
-                    gv.buildJar()
+                    echo "Building the application..."
+
                 }
             }
         }
-        stage("build image"){
-            steps{
-                script {
-                    gv.buildImage()
+        stage('deploy') {
+              when {
+                expression {
+                    BRANCHNAME == 'master'
                 }
             }
-        }
-        stage("deploy") {
-            steps{
+            
+            steps {
                 script {
-                    gv.deployApp()
+                    echo "Deploying the application..."
                 }
             }
         }
