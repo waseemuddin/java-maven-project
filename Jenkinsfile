@@ -1,5 +1,4 @@
 
-#!/usr/bin/env groovy
 
 pipeline {
     agent none
@@ -27,8 +26,10 @@ pipeline {
         }
     }
 }
-
+ 
 /*
+ #!/usr/bin/env groovy
+
 pipeline {
     agent any
     stages {
