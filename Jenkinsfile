@@ -20,20 +20,12 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                         sh 'docker build -t waseem63/my-demo-app:jma-1.3 .'
                         sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh  'docker push waseem63/my-demo-app:jam-1.3'
+                        sh  'docker push waseem63/my-demo-app:jma-1.3'
                     }
                 }
             }
         }
 
-        stage('test') {
-            steps {
-                script {
-                    echo 'Testing the application....'
-
-                }
-            }
-        }
         stage('deploy') {
             steps {
                 script {
