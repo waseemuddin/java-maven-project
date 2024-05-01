@@ -1,6 +1,6 @@
 
 pipeline {
-    agent none
+    agent any
     tools {
         maven 'maven-3.9'
     }
@@ -18,7 +18,7 @@ pipeline {
                 script {
                     echo 'building the image ....'
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh 'docker build -t waseem63/my-demo-app:jma-1.3 .'
+                        sh 'docker build -t waseem63/m y-demo-app:jma-1.3 .'
                         sh "echo $PASS | docker login -u $USER --password-stdin"
                         sh  'docker push waseem63/my-demo-app:jam-1.3'
                     }
