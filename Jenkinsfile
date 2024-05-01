@@ -1,3 +1,34 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent none
+    stages {
+        stage('build') {
+            steps {
+                script {
+                    echo "Building the application..."
+                }
+            }
+        }
+        stage('test') {
+            steps {
+                script {
+                    echo "Testing the application..."
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                script {
+                    echo "Deploying the application..."
+                }
+            }
+        }
+    }
+}
+
+
+/*
 pipeline {
     agent any
     stages{
@@ -38,8 +69,13 @@ pipeline {
     }
 }
 
+*/
 
 /*
+----------------------------
+03 File with seperate Groovy File
+----------------------------
+
 def gv
 
 
@@ -88,6 +124,10 @@ pipeline {
 */
 
 /*
+--------------------
+02 File
+--------------------
+
 pipeline {
     agent any
     tools {
@@ -129,6 +169,9 @@ pipeline {
  */
 
 /*
+------------------------
+01 File 
+------------------------
  #!/usr/bin/env groovy
 
 pipeline {
