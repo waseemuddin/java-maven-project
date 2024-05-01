@@ -1,29 +1,30 @@
 
-
 pipeline {
     agent none
     stages {
         stage('build') {
             steps {
                 script {
-                    echo "Building the application..."
+                    echo 'building the application ...'
                 }
             }
         }
         stage('test') {
             steps {
                 script {
-                    echo "Testing the application..."
+                    echo 'Testing the application....'
+
                 }
             }
         }
         stage('deploy') {
             steps {
                 script {
-                    echo "Deploying the application..."
+                    echo 'deploying the applicaton.....'
                 }
             }
         }
+        
     }
 }
  
