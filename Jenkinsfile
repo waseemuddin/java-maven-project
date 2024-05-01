@@ -7,6 +7,7 @@ pipeline {
             steps {
                 script {
                     echo "Building the application..."
+                    echo "Start building the app now..."
                 }
             }
         }
