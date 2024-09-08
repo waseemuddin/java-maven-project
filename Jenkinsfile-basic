@@ -1,8 +1,51 @@
 #!/usr/bin/env groovy
 
 pipeline {
+    agent any
+    tools {
+        maven 'maven-3.9'
+    }
+    stages {
+        stage('build jar') {
+            steps {
+                script {
+                    echo 'building the application'
+                    sh 'mvn package'
+                }
+            }
+        }
+        stage('build image') {
+            steps{
+                script {
+                    echo 'building the image...'
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'Pass', usernameVariable: 'USER')]) {
+                        sh 'docker build -t waseem63/my-demo-app:jma-1.5 .'
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh 'docker push waseem63/my-demo-app:jma-1.5'
+                    }
+                }
+            }
+        }
+          stage('deploy') {
+            steps {
+                script {
+                    echo 'deploying the applicaton.....'
+                }
+            }
+        }
+    } 
+
+}
+
+
+ 
+/*
+pipeline {
+    
     agent none
+
     stages{
+       
         stage ('build') {
             steps {
                 script {
@@ -10,6 +53,7 @@ pipeline {
                 }
             }
         }
+    
         stage('test') {
             steps {
                 script {
@@ -17,6 +61,7 @@ pipeline {
                 }
             }
         }
+    
         stage('deply') {
             steps {
                 script {
@@ -24,8 +69,10 @@ pipeline {
                 }
             }
         }
-    }
+    
+     }
 }
+*/
 
 /*
 pipeline {
