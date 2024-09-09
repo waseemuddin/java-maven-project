@@ -1,6 +1,31 @@
 #!/usr/bin/env groovy
 
 pipeline {
+    agent {label 'my-linux-node'}
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    echo 'Checking out the source code...'
+                    git 'https://github.com/example/repo.git'
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    echo "Building the code..."
+                }
+            }
+        }
+    }
+}
+
+
+/*
+# Example ---- 02 --- Parallel pipleline cide
+pipeline {
     agent any
     stages {
         stage('build') {
@@ -32,8 +57,9 @@ pipeline {
         
     }
 }
+*/
 
-/*
+/* Example  ---- 01 --- Basic pipleline code
 pipeline {
     agent none
 
