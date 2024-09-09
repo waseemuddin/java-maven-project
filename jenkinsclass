@@ -1,5 +1,33 @@
 #!/usr/bin/env groovy
 
+pipleline {
+    agent {
+        docker {
+            image 'node:14-alpine'
+            args '-v /root/.npm:/root/.npm'
+
+        }
+    }
+    stages {
+        stage('Install dependencies') {
+            steps {
+                script {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Run Test') {
+            steps {
+                script {
+                    sh 'npm test'
+                }
+            }
+        }
+    }
+
+}
+
+/* # Example 03 -- Gitcode
 pipeline {
     agent {label 'my-linux-node'}
 
