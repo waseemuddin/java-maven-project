@@ -1,8 +1,42 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent none
+    agent any
+    stages {
+        stage('build') {
+            steps {
+                script {
+                    echo "building the application...."
+                }
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage('Test on Linux') {
+                    steps {
+                        script {
+                            echo "Testing on Linux"
+
+                        }
+                    }
+                }
+                stage('Test on Windows'){
+                    steps {
+                        script {
+                            echo "Testing on Windows"
+                        }
+                    }
+                }
+            }
+        }
         
+    }
+}
+
+/*
+pipeline {
+    agent none
+
     //tools {
     //    Maven 'maven-3.9'
    // }
@@ -19,6 +53,7 @@ pipeline {
             steps {
                 script {
                     echo "This is testing the app....."
+
                 }
             }
         }
@@ -32,3 +67,4 @@ pipeline {
     }
 
 }
+*/
