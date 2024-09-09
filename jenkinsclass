@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    //agent any
-    
+    agent none
+        
     //tools {
     //    Maven 'maven-3.9'
    // }
