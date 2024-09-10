@@ -1,6 +1,26 @@
 #!/usr/bin/env groovy
 
 pipeline {
+    agent {label 'my-linux-node'}
+    stages {
+        stage ('Checkout') {
+            steps {
+                echo 'Checking out the sourcr code...'
+                git 'https://github.com/waseemuddin/java-maven-project.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    echo "Building the code ..."
+                }
+            }
+        }
+    }
+}
+
+/*
+pipeline {
     agent any
     stages {
         stage('build') {
@@ -34,3 +54,4 @@ pipeline {
     
     }
 }
+*/
