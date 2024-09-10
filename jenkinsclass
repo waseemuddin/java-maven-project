@@ -11,11 +11,18 @@ pipeline {
             }
         }
         stage('test') {
-            steps {
-                script {
-                    echo "This is testing stage...."
-                }
+            parallel {
+                stage ('Test on Linux') {
+                    steps {
+                        script {
+                            echo "This is testing stage...."
+                            }
+                        }
+                
+                  }
+
             }
+            
         }
         stage('deploy') {
             steps {
@@ -24,5 +31,6 @@ pipeline {
                 }
             }
         }
+    
     }
 }
