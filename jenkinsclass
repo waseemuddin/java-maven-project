@@ -1,57 +1,122 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent {label 'my-linux-node'}
-    stages {
-        stage ('Checkout') {
-            steps {
-                echo 'Checking out the sourcr code...'
-                git 'https://github.com/waseemuddin/java-maven-project.git'
-            }
-        }
-        stage('Build') {
-            steps {
-                script {
-                    echo "Building the code ..."
-                }
-            }
-        }
-    }
-}
+    agent none
+    //tools {
+      //  maven 'maven-3.9'
 
-/*
-pipeline {
-    agent any
+    //}
+    parameters {
+      //  string(name: 'VERSION', defaultValue: '', description: 'value of deploy on prod')
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '' )
+        booleanParam(name: 'executeTests', defaultValue: true, description: '')
+    }
+
+   
     stages {
         stage('build') {
             steps {
+                
                 script {
-                    echo "This is building stage...."
+                    echo "Building the application..."
+            
                 }
             }
         }
         stage('test') {
-            parallel {
-                stage ('Test on Linux') {
-                    steps {
-                        script {
-                            echo "This is testing stage...."
-                            }
-                        }
-                
-                  }
-
+            when {
+                expression {
+                    params.executeTests
+                }
             }
-            
+
+            steps {
+                script {
+                    echo "Testing the application..."
+                }
+            }
         }
         stage('deploy') {
             steps {
                 script {
-                    echo "This is deploying stage..."
+                    echo "Deploying the application..."
+                    echo "deplying version ${params.VERSION}"
+                
                 }
             }
         }
-    
+     
+    }
+}
+
+
+
+
+/*
+
+//CODE_CHANGES = getGitChanges()
+
+pipeline {
+    agent none
+    environment {
+        NEW_VERSION = '1.3.0'
+        SERVER_CREDENTAILS = credentials("server-credentails")
+
+    }
+    stages {
+        stage('build') {
+
+  //          when {
+    //            expression {
+      //              BRANCH_NAME == 'dev' && CODE_CHANGES == true
+
+        //        }
+          //  }
+            steps {
+                
+                script {
+                    echo "Building the application..."
+                    echo "building new vrsion ${NEW_VERSION}"
+                    //echo "Start webhook in jenkins-jobs branch..."
+                }
+            }
+        }
+        stage('test') {
+            //when {
+              //  expression {
+                //    BRANCH_NAME == 'dev' || BRANCH_NAME == 'master'
+                //}
+           //  }
+            steps {
+                script {
+                    echo "Testing the application..."
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                script {
+                    echo "Deploying the application..."
+                    //echo "deploying with ${SERVER_CREDENTAILS}"
+                   // sh "${SERVER_CREDENTAILS}"
+                   withCredentials([ usernamePassword(credentails: 'server-credentails', usernameVariable: USER, passwordVariable: PASS)
+                   ]){ 
+                    sh "some scrip ${USER} ${PASS} "
+
+                   }
+                }
+            }
+        }
+      /*  post {
+            always {
+                //
+            }
+            succcess/failure {
+
+            }
+            
+        }
+
     }
 }
 */
