@@ -15,27 +15,7 @@ pipeline {
                 }
             }
         }
-        stage('build jar') {
-            steps {
-                script {
-                    gv.buildJar()
-                }
-            }
-        }
-        stage('build image'){
-            steps {
-                script {
-                    gv.builImage()
-                }
-            }
-        }
-        stage('deploy app') {
-            steps {
-                script {
-                    gv.deployApp()
-                }
-            }
-        }
+      
     }
 }
 
