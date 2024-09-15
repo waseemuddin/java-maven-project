@@ -10,8 +10,14 @@ pipeline {
     stages {
         stage("init groovy") {
             steps {
-                script {
-                    gv = load "script.groovy" 
+               script {
+                    echo "Loading the Groovy script file..."
+                    gv = load "script.groovy"
+                    if (gv == null) {
+                        error "Failed to load script.groovy, gv is null!"
+                    } else {
+                        echo "Groovy script loaded successfully."
+                    }
                 }
             }
         }
