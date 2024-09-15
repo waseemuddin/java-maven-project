@@ -1,6 +1,44 @@
 #!/usr/bin/env groovy
 
 pipeline {
+    agent any
+    tools {
+        maven 'maven-3.9'
+    }
+    stages {
+        stage('build') {
+            steps {
+                script {
+                    echo "Building the jar file...."
+                }
+            }
+        }
+        stage('test') {
+            steps {
+                script {
+                    echo "Testing the jar file..."
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                script {
+                    echo "deplying the jar file...."
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+/* -----------------------------------------------------------------------------------------------------
+pipeline {
     agent none
     //tools {
       //  maven 'maven-3.9'
@@ -41,7 +79,7 @@ pipeline {
                 script {
                     echo "Deploying the application..."
                     echo "deplying version ${params.VERSION}"
-                
+ 
                 }
             }
         }
@@ -49,7 +87,7 @@ pipeline {
     }
 }
 
-
+/*
 
 
 /*
