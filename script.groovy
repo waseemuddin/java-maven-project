@@ -13,3 +13,5 @@ def deployApp() {
     echo '<h2>Step 03</h2>'
     echo '<h4>This is the final step where the application is successfully deployed and pushed to Docker Hub</h4>'  // Corrected closing tags
 }
+
+return this
