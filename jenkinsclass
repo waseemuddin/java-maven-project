@@ -8,9 +8,9 @@ pipeline {
         maven 'maven-3.9'
     }
     stages {
-        stage("init groovy") {
+        stage("Initialize Groovy Script") {
             steps {
-               script {
+                script {
                     echo "Loading the Groovy script file..."
                     gv = load "script.groovy"
                     if (gv == null) {
@@ -21,26 +21,37 @@ pipeline {
                 }
             }
         }
-        stage("build jar") {
+        stage("Build Java Jar") {
             steps {
                 script {
+                    echo "Starting the Java Jar build process..."
                     gv.buildJar()
                 }
             }
         }
-        stage("build image"){
+        stage("Build Docker Image") {
             steps {
                 script {
+                    echo "Starting the Docker image build process..."
                     gv.buildImage()
                 }
             }
         }
-        stage('deploy app') {
+        stage('Deploy Application') {
             steps {
                 script {
+                    echo "Starting the application deployment process..."
                     gv.deployApp()
                 }
             }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
         }
     }
 }
