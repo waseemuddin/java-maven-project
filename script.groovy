@@ -20,6 +20,7 @@ def buildImage() {  // Corrected method name to 'buildImage'
         sh "echo $PASS | docker login -u $USER --password-stdin"
         sh 'docker push waseem63/demo-app:jma-3.2'
         echo 'Docker image built and pushed successfully.'
+       }
     } catch (Exception e) {
         echo "Error occurred while building the Docker image: ${e.message}"
         currentBuild.result = 'FAILURE'
