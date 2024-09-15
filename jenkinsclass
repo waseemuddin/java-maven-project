@@ -6,11 +6,24 @@ pipeline {
         maven 'maven-3.9'
     }
     stages {
-        stage('build') {
+        stage('build jar') {
             steps {
                 script {
                     echo "Building the jar file...."
+                    sh 'mvn package'
                 }
+            }
+        }
+        stage('build image') {
+            steps {
+                script {
+                    echo "Building the image file...."
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')])
+                    sh 'docker build -t waseem63/demo-app:jma-2.0 .'
+                    sh "echo $Pass | docker login -u $USER --password-stdin"
+                    sh 'docker push waseem63/demo-app:jma-2.0'
+                }
+
             }
         }
         stage('test') {
