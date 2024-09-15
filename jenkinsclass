@@ -11,7 +11,7 @@ pipeline {
         stage("init groovy") {
             steps {
                 script {
-                    gv = load "Groovy Script loading"
+                    gv = load "script.groovy"
                 }
             }
         }
