@@ -9,7 +9,7 @@ def buildImage() {  // Corrected method name
     echo '<h4>Building the docker images and pushing to docker repository</h4>'
     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh 'docker build -t waseem63/demo-app:jma-3.2 .'
-        sh "echo $PASS | docker login -u $USER --passsword-stdin"
+        sh "echo $PASS | docker login -u $USER --password-stdin"
         sh 'docker push waseem63/demo-app:jma-3.2'
     }
 }
