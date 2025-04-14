@@ -1,34 +1,65 @@
-#!/usr/bin/env groovy
+#!/usr/bin/env/groovy
 
 pipeline {
-    agent none
+    agent any
     stages {
-        stage('build') {
+        stage ('build') {
             steps {
                 script {
-                    echo "Building the application..."
-                    //echo "Start webhook in jenkins-jobs branch..."
+                    echo "Building the application"
+                }
+            }
+             
+        }
+        stage ('test') {
+            steps {
+                script {
+                    echo "Testing the application"
                 }
             }
         }
-        stage('test') {
+        stage ('deploy') {
             steps {
                 script {
-                    echo "Testing the application..."
+                    echo "Deploying the application"
                 }
             }
         }
-        stage('deploy') {
-            steps {
-                script {
-                    echo "Deploying the application..."
-                }
-            }
-        }
-     
-
     }
 }
+
+
+// #!/usr/bin/env groovy
+
+// pipeline {
+//     agent none
+//     stages {
+//         stage('build') {
+//             steps {
+//                 script {
+//                     echo "Building the application..."
+//                     //echo "Start webhook in jenkins-jobs branch..."
+//                 }
+//             }
+//         }
+//         stage('test') {
+//             steps {
+//                 script {
+//                     echo "Testing the application..."
+//                 }
+//             }
+//         }
+//         stage('deploy') {
+//             steps {
+//                 script {
+//                     echo "Deploying the application..."
+//                 }
+//             }
+//         }
+     
+
+//     }
+// }
 
 
 /*
