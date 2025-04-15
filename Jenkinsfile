@@ -19,7 +19,7 @@ pipeline {
                 script {
                     echo "This is testing stage"
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh 'docker build -t vpccloud/demo-app:jam-2.0 .'
+                    sh 'docker build -t vpccloud/demo-app:jma-2.0 .'
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh 'docker push vpccloud/demo-app:jma-2.0'
                     }
