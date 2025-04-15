@@ -2,18 +2,27 @@
 
 pipeline {
     agent any
+    tools {
+        maven 'maven-3.9'
+    }
     stages {
-        stage('build') {
+        stage('build jar') {
             steps {
                 script {
                     echo "This is building stage"
+                    sh 'mvn package'
                 }
             }
         }
-        stage('test') {
+        stage('build image') {
             steps {
                 script {
                     echo "This is testing stage"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh 'docker build -t vpccloud/demo-app:jam-2.0 .'
+                    sh "ech $PASS | docker login -u $USER --password-stdin"
+                    sh 'docker push vpccloud/demo-app:jma-2.0'
+                    }
                 }
             }
         }
@@ -27,22 +36,6 @@ pipeline {
     }
 }
 
-
-
-// pipeline {
-//     agent any 
-//     tools {
-//         maven 'maven-3.9'
-//     }
-//     stages {
-//         stage('build jar') {
-//             steps {
-//                 script {
-//                     echo "building the application"
-//                     sh 'mvn package'
-//                 }
-//             }
-//         }
 //         stage('build image') {
 //             steps {
 //                 script {
