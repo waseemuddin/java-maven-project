@@ -1,5 +1,4 @@
-#!/usr/bin/env/groovy
-def gv
+// #!/usr/bin/env/groovy
 
 pipeline {
     agent any
@@ -7,40 +6,30 @@ pipeline {
         maven 'maven-3.9'
     }
     stages {
-        stage('init') {
+        stage('build jar') {
             steps {
                 script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
-        stage('build jar') {
-            steps { 
-                script {
-                    gv.buildJar()
-                    
-                    //echo "This is building stage"
-                    //sh 'mvn package'
+                    echo "This is building stage"
+                    sh 'mvn package'
                 }
             }
         }
         stage('build image') {
             steps {
                 script {
-                    gv.buildImage()
-                    // echo "This is testing stage"
-                    // withCredentials([usernamePassword(credentialsId: 'docker-hub-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    // sh 'docker build -t vpccloud/demo-app:jma-2.0 .'
-                    // sh "echo $PASS | docker login -u $USER --password-stdin"
-                    // sh 'docker push vpccloud/demo-app:jma-2.0'
-                  }
+                    echo "This is testing stage"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh 'docker build -t vpccloud/demo-app:jma-2.0 .'
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh 'docker push vpccloud/demo-app:jma-2.0'
+                    }
                 }
             }
+        }
         stage('deploy') {
             steps {
                 script {
-                   gv.deployApp()
-                   // echo "This is deploying stage"
+                    echo "This is deploying stage"
                 }
             }
         }
