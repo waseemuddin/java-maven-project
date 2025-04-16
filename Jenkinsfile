@@ -1,38 +1,80 @@
-def gv
-
 pipeline {
-    agent any
+    agent any 
+    
     stages {
-        stage("init") {
+        stage('build'){
             steps {
                 script {
-                    gv = load "script.groovy"
+                    echo "This is building stage"
+                    echo "Executing pipeline for branch $BRANCH_NAME"
                 }
             }
         }
-        stage("build jar") {
+        stage('test'){
+            when {
+                expression {
+                     BRANCH_NAME = 'master'
+                }
+            }
             steps {
                 script {
-                    echo "building jar"
-                    //gv.buildJar()
+                    echo "This is testing stage"
                 }
             }
         }
-        stage("build image") {
+        stage('deploy'){
+
+             when {
+                expression {
+                     BRANCH_NAME = 'master'
+                }
+            }
             steps {
                 script {
-                    echo "building image"
-                    //gv.buildImage()
+                    echo "This is the deployment stage"
                 }
             }
         }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
-            }
-        }
-    }   
+        
+
+    }
 }
+
+// def gv
+
+// pipeline {
+//     agent any
+//     stages {
+//         stage("init") {
+//             steps {
+//                 script {
+//                     gv = load "script.groovy"
+//                 }
+//             }
+//         }
+//         stage("build jar") {
+//             steps {
+//                 script {
+//                     echo "building jar"
+//                     //gv.buildJar()
+//                 }
+//             }
+//         }
+//         stage("build image") {
+//             steps {
+//                 script {
+//                     echo "building image"
+//                     //gv.buildImage()
+//                 }
+//             }
+//         }
+//         stage("deploy") {
+//             steps {
+//                 script {
+//                     echo "deploying"
+//                     //gv.deployApp()
+//                 }
+//             }
+//         }
+//     }   
+// }
