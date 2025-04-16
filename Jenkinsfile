@@ -9,7 +9,7 @@ pipeline {
         stage('build jar') {
             steps {
                 script {
-                    echo "This is building stage"
+                    echo "This is building stage."
                     sh 'mvn package'
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
         stage('deploy') {
             steps {
                 script {
-                    echo "This is deploying stage"
+                    echo "This is deploying stage."
                 }
             }
         }
