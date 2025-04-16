@@ -1,21 +1,27 @@
 // // #!/usr/bin/env/groovy
 
 pipeline {
-    agent any 
-    
+    agent any
+
+   // environment {
+        // Extract branch name dynamically
+    //    BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+ //   }
+
     stages {
-        stage('build'){
+        stage('build') {
             steps {
                 script {
                     echo "This is building stage"
-                    echo "Executing pipeline for branch $BRANCH_NAME"
+                 //   echo "Executing pipeline for branch ${env.BRANCH_NAME}"
                 }
             }
         }
-        stage('test'){
+
+        stage('test') {
             when {
                 expression {
-                     BRANCH_NAME = 'master'
+                    return env.BRANCH_NAME == 'master'
                 }
             }
             steps {
@@ -24,21 +30,19 @@ pipeline {
                 }
             }
         }
-        stage('deploy'){
 
-             when {
+        stage('deploy') {
+            when {
                 expression {
-                     BRANCH_NAME = 'master'
+                    return env.BRANCH_NAME == 'master'
                 }
             }
             steps {
                 script {
-                    echo "This is deploying stage"
+                    echo "This is the deployment stage"
                 }
             }
         }
-        
-
     }
 }
 
