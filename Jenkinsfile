@@ -1,17 +1,17 @@
 pipeline {
     agent any
 
-    environment {
+   // environment {
         // Extract branch name dynamically
-        BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
-    }
+    //    BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+ //   }
 
     stages {
         stage('build') {
             steps {
                 script {
                     echo "This is building stage"
-                    echo "Executing pipeline for branch ${env.BRANCH_NAME}"
+                 //   echo "Executing pipeline for branch ${env.BRANCH_NAME}"
                 }
             }
         }
