@@ -8,22 +8,23 @@ pipeline {
             steps {
                 script {
                     echo "building the applicaton...."
-                    sh 'mvn package'
+                    sh 'mvn  package'
                 }
             }
         }
-         stage("build image") {
-            steps {
-                script {
-                    echo "building the applicaton...."
-                    withCrdentials([usernamePassword(crdentialsId: 'docker-hub-account', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+            stage("Build Image") {
+                steps {
+                 script {
+                    echo "Building the Docker image...."
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-account', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        // Login FIRST before building/pushing
+                        sh "echo \$PASS | docker login -u \$USER --password-stdin"
                         sh 'docker build -t vpccloud/demo-app:jma-1.0 .'
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
                         sh 'docker push vpccloud/demo-app:jma-1.0'
-                       }
                     }
                 }
             }
+        }
             stage("deploy") {
             steps {
                 script {
