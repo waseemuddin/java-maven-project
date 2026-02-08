@@ -12,15 +12,22 @@ pipeline {
                 }
             }
         }
-            stage("Build Image") {
-                steps {
-                 script {
+           stage("Build Image") {
+            agent {
+                docker {
+                    image 'docker:latest'  // Uses Docker-in-Docker
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
+            steps {
+                script {
                     echo "Building the Docker image...."
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-account', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        // Login FIRST before building/pushing
-                        sh "echo \$PASS | docker login -u \$USER --password-stdin"
-                        sh 'docker build -t vpccloud/demo-app:jma-1.0 .'
-                        sh 'docker push vpccloud/demo-app:jma-1.0'
+                        sh """
+                            echo \$PASS | docker login -u \$USER --password-stdin
+                            docker build -t vpccloud/demo-app:jma-1.0 .
+                            docker push vpccloud/demo-app:jma-1.0
+                        """
                     }
                 }
             }
