@@ -6,6 +6,7 @@ pipeline {
         stage('build'){
             steps {
                 script {
+                    sh 'npm --version'
                     echo "This is building the stage"
                 }
             }
